@@ -1,7 +1,4 @@
-# import numpy as np
-# import tensorflow as tf
 import re
-# import time
 import pickle
 
 # data preprocessing
@@ -83,3 +80,18 @@ for word, count in word2count.items():
     if count > threashold:
         answerswords2int[word] = word_number
         word_number += 1
+
+tokens = ['<PAD>', '<EOS>', '<OUT>', '<SOS>']
+
+for token in tokens:
+    questionswords2int[token] = len(questionswords2int) + 1
+
+for token in tokens:
+    answerswords2int[token] = len(answerswords2int) + 1
+
+answersint2words = {w_i: w for w, w_i in answerswords2int.items()}
+
+for i in range(len(clean_answers)):
+    clean_answers[i] += ' <EOS>'
+
+
