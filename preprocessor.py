@@ -129,3 +129,7 @@ pickle_out.close()
 pickle_out = open("sorted_clean_answers.pickle", "wb")
 pickle.dump(sorted_clean_answers, pickle_out)
 pickle_out.close()
+
+pickle_out = open("questionswords2int.pickle", "wb")
+pickle.dump(questionswords2int, pickle_out)
+pickle_out.close()
