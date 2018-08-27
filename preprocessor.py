@@ -1,7 +1,6 @@
 import re
 import pickle
 
-# data preprocessing
 lines = open('movie_lines.txt').read().split('\n')
 conversations = open('movie_conversations.txt').read().split('\n')
 
@@ -47,7 +46,7 @@ clean_questions = []
 for question in questions:
     clean_questions.append(clean_text(question))
 
-clean_answers= []
+clean_answers = []
 for answer in answers:
     clean_answers.append(clean_text(answer))
 
@@ -94,4 +93,39 @@ answersint2words = {w_i: w for w, w_i in answerswords2int.items()}
 for i in range(len(clean_answers)):
     clean_answers[i] += ' <EOS>'
 
+questions_to_int = []
+for question in clean_questions:
+    ints = []
+    for word in question.split():
+        if word not in questionswords2int:
+            ints.append(questionswords2int['<OUT>'])
+        else:
+            ints.append(questionswords2int[word])
+        questions_to_int.append(ints)
 
+answers_to_int = []
+for answer in clean_answers:
+    ints = []
+    for word in answer.split():
+        if word not in answerswords2int:
+            ints.append(answerswords2int['<OUT>'])
+        else:
+            ints.append(answerswords2int[word])
+        answers_to_int.append(ints)
+
+
+sorted_clean_questions = []
+sorted_clean_answers = []
+for length in range(1, 25):
+    for i in enumerate(questions_to_int):
+        if len(i[1]) == length:
+            sorted_clean_questions.append(questions_to_int[0])
+            sorted_clean_answers.append(answers_to_int[0])
+
+pickle_out = open("sorted_clean_questions.pickle", "wb")
+pickle.dump(sorted_clean_questions, pickle_out)
+pickle_out.close()
+
+pickle_out = open("sorted_clean_answers.pickle", "wb")
+pickle.dump(sorted_clean_answers, pickle_out)
+pickle_out.close()
